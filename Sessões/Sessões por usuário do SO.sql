@@ -1,11 +1,11 @@
 --Author: MaurosMJ
 
-                      select osuser "OS_User", 
-
-                                      count(*) "Count" 
-
-                                 from gv$session 
-
-                                group by osuser 
-
-                                order by 1 
+SELECT
+    osuser   "OS_User",
+    COUNT(*) "Count"
+FROM
+    gv$session
+GROUP BY
+    osuser
+ORDER BY
+    1;

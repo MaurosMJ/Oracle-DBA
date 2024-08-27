@@ -1,19 +1,17 @@
 --Author: MaurosMJ
 
-                      select TABLESPACE_NAME "Tablespace",   
-
-                                      FILE_NAME "Filename",   
-
-                                      BYTES/1024/1024 "Size MB",  
-
-                                      MAXBYTES/1024/1024 "Maximum Size MB",  
-
-                                      AUTOEXTENSIBLE "Autoextensible" 
-
-                                 from SYS.DBA_DATA_FILES 
-
-                                where (:TABLESPACE_NAME is null or  
-
-                                       instr(lower(tablespace_name),lower(:TABLESPACE_NAME)) > 0) 
-
-                                order by 1,2 
+SELECT
+    tablespace_name        "Tablespace",
+    file_name              "Filename",
+    bytes / 1024 / 1024    "Size MB",
+    maxbytes / 1024 / 1024 "Maximum Size MB",
+    autoextensible         "Autoextensible"
+FROM
+    sys.dba_data_files
+WHERE
+    ( :tablespace_name IS NULL
+      OR instr(lower(tablespace_name),
+               lower(:tablespace_name)) > 0 )
+ORDER BY
+    1,
+    2;

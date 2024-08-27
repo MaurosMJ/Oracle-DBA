@@ -1,13 +1,14 @@
 --Author: MaurosMJ
 
-                      select status "Status", 
-
-                                      count(distinct osuser) "Distinct_OS_Users", 
-
-                                      type "Type",count(*) "Count" 
-
-                                 from gv$session 
-
-                                group by status,type 
-
-                                order by 1 
+SELECT
+    status                 "Status",
+    COUNT(DISTINCT osuser) "Distinct_OS_Users",
+    type                   "Type",
+    COUNT(*)               "Count"
+FROM
+    gv$session
+GROUP BY
+    status,
+    type
+ORDER BY
+    1;

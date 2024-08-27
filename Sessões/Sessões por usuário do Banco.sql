@@ -1,11 +1,11 @@
 --@Author: MaurosMJ
 
-                      select nvl(username,'Unidentified') "Username", 
-
-                                      count(*) "Session_Count" 
-
-                                 from gv$session 
-
-                                group by nvl(username,'Unidentified') 
-
-                                order by 1 
+SELECT
+    nvl(username, 'Unidentified') "Username",
+    COUNT(*)                      "Session_Count"
+FROM
+    gv$session
+GROUP BY
+    nvl(username, 'Unidentified')
+ORDER BY
+    1;

@@ -1,21 +1,40 @@
 --@Author: MaurosMJ
 
-select  
-
-  S.OWNER, 
-
-  s.tablespace_name "Name", 
-
-  count(s.bytes) "Tables",  
-
-  sum(s.bytes/1024/1024) "Segment Usage", 
-
-  (select ((sum(bytes))/1024/1024) from dba_ts_quotas where tablespace_name = s.tablespace_name and username = s.owner ) "Quota Usage", 
-
-  (select (case when max_bytes = -1 then 'UNLIMITED' else to_char(max_bytes/1024/1024)||' Mb' end) "Quota" from dba_ts_quotas where tablespace_name = s.tablespace_name and username = s.owner) Quota 
-
-from dba_segments s 
-
-where s.segment_type = 'TABLE' 
-
-group by S.OWNER,s.tablespace_name
+SELECT
+    s.owner,
+    s.tablespace_name          "Name",
+    COUNT(s.bytes)             "Tables",
+    SUM(s.bytes / 1024 / 1024) "Segment Usage",
+    (
+        SELECT
+            ( ( SUM(bytes) ) / 1024 / 1024 )
+        FROM
+            dba_ts_quotas
+        WHERE
+                tablespace_name = s.tablespace_name
+            AND username = s.owner
+    )                          "Quota Usage",
+    (
+        SELECT
+            (
+                CASE
+                    WHEN max_bytes = - 1 THEN
+                        'UNLIMITED'
+                    ELSE
+                        to_char(max_bytes / 1024 / 1024)
+                        || ' Mb'
+                END
+            ) "Quota"
+        FROM
+            dba_ts_quotas
+        WHERE
+                tablespace_name = s.tablespace_name
+            AND username = s.owner
+    )                          quota
+FROM
+    dba_segments s
+WHERE
+    s.segment_type = 'TABLE'
+GROUP BY
+    s.owner,
+    s.tablespace_name;

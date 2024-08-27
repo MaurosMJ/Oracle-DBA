@@ -1,5 +1,19 @@
 --@Author: MaurosMJ
 
-select inst_id, count(case when status='ACTIVE' then 1 else null end) active,  
-
-count(*) total from gv$session where type !='BACKGROUND' GROUP by inst_id 
+SELECT
+    inst_id,
+    COUNT(
+        CASE
+            WHEN status = 'ACTIVE' THEN
+                1
+            ELSE
+                NULL
+        END
+    )        active,
+    COUNT(*) total
+FROM
+    gv$session
+WHERE
+    type != 'BACKGROUND'
+GROUP BY
+    inst_id;

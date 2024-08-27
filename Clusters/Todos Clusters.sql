@@ -1,15 +1,14 @@
 --@Author: MaurosMJ
 
-                            select OWNER, 
-
-                                            CLUSTER_NAME,  
-
-                                            TABLESPACE_NAME 
-
-                                       from sys.dba_clusters 
-
-                                      where cluster_name not like 'BIN$%'  
-
-                                        and owner not in ('SYS','SYSTEM') 
-
-                                      order by 1, 2 
+SELECT
+    owner,
+    cluster_name,
+    tablespace_name
+FROM
+    sys.dba_clusters
+WHERE
+    cluster_name NOT LIKE 'BIN$%'
+    AND owner NOT IN ( 'SYS', 'SYSTEM' )
+ORDER BY
+    1,
+    2;

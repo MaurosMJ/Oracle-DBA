@@ -1,11 +1,11 @@
 --@Author: MaurosMJ
 
-                      select nvl(module,'Unidentified') "Module", 
-
-                                      count(*) "Session_Count" 
-
-                                 from gv$session 
-
-                                 group by nvl(module,'Unidentified') 
-
-                                 order by 1 
+SELECT
+    nvl(module, 'Unidentified') "Module",
+    COUNT(*)                    "Session_Count"
+FROM
+    gv$session
+GROUP BY
+    nvl(module, 'Unidentified')
+ORDER BY
+    1;

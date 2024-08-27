@@ -1,43 +1,38 @@
 --Author: MaurosMJ
 
-                     select nvl(b.tablespace_name, 
-
-                                     nvl(a.tablespace_name,'UNKNOWN')) "Tablespace", 
-
-                                     kbytes_alloc "Allocated MB", 
-
-                                     kbytes_alloc-nvl(kbytes_free,0) "Used MB", 
-
-                                     nvl(kbytes_free,0) "Free MB", 
-
-                                     ((kbytes_alloc-nvl(kbytes_free,0))/kbytes_alloc) "Used", 
-
-                                     data_files "Data Files" 
-
-                                from ( select sum(bytes)/1024/1024 Kbytes_free, 
-
-                                              max(bytes)/1024/1024 largest, 
-
-                                              tablespace_name 
-
-                                         from sys.dba_free_space 
-
-                                        group by tablespace_name ) a, 
-
-                                     ( select sum(bytes)/1024/1024 Kbytes_alloc, 
-
-                                              tablespace_name, 
-
-                                              count(*) data_files 
-
-                                         from sys.dba_data_files 
-
-                                        group by tablespace_name )b 
-
-                               where a.tablespace_name (+) = b.tablespace_name 
-
-                                 and (:TABLESPACE_NAME is null or  
-
-                                       instr(lower(b.tablespace_name),lower(:TABLESPACE_NAME)) > 0) 
-
-                               order by 1 
+SELECT
+    nvl(b.tablespace_name,
+        nvl(a.tablespace_name, 'UNKNOWN'))                    "Tablespace",
+    kbytes_alloc                                              "Allocated MB",
+    kbytes_alloc - nvl(kbytes_free, 0)                        "Used MB",
+    nvl(kbytes_free, 0)                                       "Free MB",
+    ( ( kbytes_alloc - nvl(kbytes_free, 0) ) / kbytes_alloc ) "Used",
+    data_files                                                "Data Files"
+FROM
+    (
+        SELECT
+            SUM(bytes) / 1024 / 1024 kbytes_free,
+            MAX(bytes) / 1024 / 1024 largest,
+            tablespace_name
+        FROM
+            sys.dba_free_space
+        GROUP BY
+            tablespace_name
+    ) a,
+    (
+        SELECT
+            SUM(bytes) / 1024 / 1024 kbytes_alloc,
+            tablespace_name,
+            COUNT(*)                 data_files
+        FROM
+            sys.dba_data_files
+        GROUP BY
+            tablespace_name
+    ) b
+WHERE
+        a.tablespace_name (+) = b.tablespace_name
+    AND ( :tablespace_name IS NULL
+          OR instr(lower(b.tablespace_name),
+                   lower(:tablespace_name)) > 0 )
+ORDER BY
+    1;
