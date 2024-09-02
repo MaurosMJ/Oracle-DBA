@@ -4,6 +4,7 @@ SELECT
     s.sid,
     s.serial#,
     s.username,
+    s.osuser,
     s.machine,
     s.program,
     s.status,
