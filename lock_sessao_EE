@@ -1,0 +1,38 @@
+SELECT x.inst_id,
+       x.blocking_inst_id,
+       x.blocking_session,
+       x.blocking_session_serial#,
+       x.event,
+       x.sql_id,
+       x.qt_ocorrencias,
+       ROUND(RATIO_TO_REPORT(x.qt_ocorrencias) OVER() * 100, 2) AS ratio_block
+  FROM (
+    SELECT h.inst_id,
+           h.blocking_inst_id,
+           h.blocking_session,
+           h.blocking_session_serial#,
+           h.event,
+           h.sql_id,
+           COUNT(1) AS qt_ocorrencias
+      FROM gv$active_session_history h
+     WHERE h.sample_time BETWEEN TO_TIMESTAMP('16/06/2025 10:00', 'DD/MM/YYYY HH24:MI')
+                             AND TO_TIMESTAMP('16/06/2025 10:05', 'DD/MM/YYYY HH24:MI')
+       AND h.blocking_session IS NOT NULL
+     GROUP BY h.inst_id,
+              h.blocking_inst_id,
+              h.blocking_session,
+              h.blocking_session_serial#,
+              h.event,
+              h.sql_id
+     ORDER BY COUNT(1) DESC
+     FETCH FIRST 10 ROWS ONLY
+  ) x;
+
+
+
+select sid, serial#, program, client_info, osuser, sql_id, nvl(plsql_entry_object_id,plsql_object_id) plsql_object,
+event
+from gv$session
+where inst_id =  2
+and sid = 466
+and serial# = 41427;
