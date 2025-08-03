@@ -27,3 +27,9 @@ WHERE
 
 -- Gravar no disco todas as alterações que estão na memória (buffers da SGA) e que ainda não foram escritas nos datafiles. Ele sincroniza os datafiles com o conteúdo atualizado dos buffers (Pode gerar IO Intenso e alto consumo de CPU)
 ALTER SYSTEM CHECKPOINT;
+
+-- Determinar o nome do programa cliente associado a cada sessão conectada ao banco de dados
+SELECT PROGRAM FROM V$SESSION ORDER BY PROGRAM;
+
+-- Determinar o nome do programa/processo em nível de sistema operacional associado aos processos do Oracle
+SELECT PROGRAM FROM V$PROCESS ORDER BY PROGRAM;
