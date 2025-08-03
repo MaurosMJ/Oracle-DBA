@@ -24,3 +24,6 @@ FROM
     V$PGASTAT
 WHERE 
     NAME IN ('maximum PGA allocated', 'total PGA allocated');
+
+-- Gravar no disco todas as alterações que estão na memória (buffers da SGA) e que ainda não foram escritas nos datafiles. Ele sincroniza os datafiles com o conteúdo atualizado dos buffers (Pode gerar IO Intenso e alto consumo de CPU)
+ALTER SYSTEM CHECKPOINT;
