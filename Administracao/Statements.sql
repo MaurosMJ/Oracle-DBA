@@ -33,3 +33,16 @@ SELECT PROGRAM FROM V$SESSION ORDER BY PROGRAM;
 
 -- Determinar o nome do programa/processo em nível de sistema operacional associado aos processos do Oracle
 SELECT PROGRAM FROM V$PROCESS ORDER BY PROGRAM;
+
+-- Identificando a extensão de um segmento, id do arquivo, tamanho alocado da extensão e quantidade de blocos alocados
+SELECT 
+    EXTENT_ID,
+    OWNER, 
+    SEGMENT_NAME, 
+    SEGMENT_TYPE, 
+    TABLESPACE_NAME,  
+    BYTES / 1024 / 1024 AS BYTES_MB,
+    BLOCKS, 
+    FILE_ID, 
+    BLOCK_ID 
+FROM DBA_EXTENTS;
