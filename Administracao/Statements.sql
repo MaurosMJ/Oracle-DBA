@@ -46,3 +46,17 @@ SELECT
     FILE_ID, 
     BLOCK_ID 
 FROM DBA_EXTENTS;
+
+-- Informações sobre o database file (.dbf)
+SELECT
+    file#,
+    ts# AS tablespace_num,
+    TO_CHAR(creation_time, 'dd/mm/rrrr hh24:MI:ss')   AS creation_time,
+    TO_CHAR(checkpoint_time, 'dd/mm/rrrr hh24:MI:ss') AS checkpoint_time,
+    status,
+    enabled,
+    blocks AS qtd_blocks,
+    TRUNC(bytes / 1024 / 1024, 2) || ' MB'             AS bytes_mb,
+    name AS dbf_local
+FROM
+    v$datafile;
