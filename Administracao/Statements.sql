@@ -60,3 +60,9 @@ SELECT
     name AS dbf_local
 FROM
     v$datafile;
+
+-- Sistema operacional rodando minha instancia
+SELECT PLATFORM_NAME FROM V$DATABASE V;
+
+-- Local do ControlFile (> 1 Registro = Multiplexado)
+SELECT NAME FROM V$CONTROLFILE;
