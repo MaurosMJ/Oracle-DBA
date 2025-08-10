@@ -66,3 +66,9 @@ SELECT PLATFORM_NAME FROM V$DATABASE V;
 
 -- Local do ControlFile (> 1 Registro = Multiplexado)
 SELECT NAME FROM V$CONTROLFILE;
+
+-- Grupo, tamanho, nome do membro, quantidade de membros e o typo (do logfile)
+SELECT l.group#, l.bytes/1024/1024 || ' M' as "BYTES (M)", lf.member, l.members, lf.type FROM V$LOG l join (v$logfile lf) on (l.group# = lf.group#);
+
+
+SELECT tb.ts#, tb.name as "Nome Tablespace", to_char(creation_time, 'dd/mm/rrrr hh24:mi:ss') as "TB criação", dbf.name "DBF associado", blocks as "Qtd blocos", block_size/1024 || 'K' as "DBF tamanho dos blocos", trunc(Bytes/1024/1024/1024,2) || 'G' as "Tamanho (blocos X tam. bloco)"  FROM V$TABLESPACE tb join (V$DATAFILE dbf) on (tb.ts# = dbf.ts#) order by 7 desc;
