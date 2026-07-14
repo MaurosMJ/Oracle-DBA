@@ -1,0 +1,10 @@
+https://www.oracle.com/br/database/technologies/instant-client/winx64-64-downloads.html
+
+Installation Steps
+Download the appropriate Instant Client packages for your platform. All installations require the Basic or Basic Light package.
+Unzip the packages into a single directory, for example C:\oracle\instantclient_23_26.
+Add the directory from Step 2 to the PATH environment variable. If you have multiple versions of Oracle libraries installed, make sure the new directory occurs first in the path. Restart any terminal windows or otherwise make sure the new PATH is used by your applications.
+Download and install the latest Visual Studio C++ Redistributable from Microsoft. Oracle Instant Client requires this redistributable to run on Windows.
+If you co-locate optional Oracle configuration files such as tnsnames.ora, sqlnet.ora, ldap.ora, or oraaccess.xml with Instant Client, create a subdirectory like C:\oracle\instantclient_23_26\network\admin. This is the default Oracle client configuration directory for applications linked with this Instant Client. Alternatively, Oracle client configuration files can be put in another accessible directory with the TNS_ADMIN environment variable set to that directory name.
+Start your application.
+ODBC users should follow the ODBC Installation Instructions.
